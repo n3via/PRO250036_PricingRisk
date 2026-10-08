@@ -1,0 +1,7 @@
+# PRO250036_PricingRisk/project.toml
+
+[project]
+name = "PRO250036_PricingRisk"
+version = "0.1.0"
+
+dependencies = []

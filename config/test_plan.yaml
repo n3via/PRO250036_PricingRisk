@@ -1,0 +1,18 @@
+## Nome logico del piano di esecuzione
+plan_name: smoke_api
+project: PRO250026_PortalPoint
+
+## Elenco dei testcase gestiti dal runner del piano.
+test_cases: 
+  
+  - id: TC0024_GET_Qualifications
+    enabled: true
+    description:
+
+  - id: TC0025_POST_Qualifications
+    enabled: true
+    description:
+
+  - id: TC0026_GET_QualificationId
+    enabled: true
+    description:

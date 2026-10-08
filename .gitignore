@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtualenv
+.venv/
+env/
+venv/
+
+# VS Code / JetBrains
+.vscode/
+.idea/
+
+# Test / logs / html
+*.log
+*.html
+logs/        # <-- ignora la cartella logs
+reports/     # <-- ignora la cartella reports
+allure-results/
+CONFIG/environments.yaml
+
+# Environment files
+.env
+
+# OS
+.DS_Store

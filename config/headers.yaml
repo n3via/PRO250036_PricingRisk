@@ -1,0 +1,55 @@
+# CONFIGURAZIONE HEADERS GLOBALI E PER METODO HTTP
+# =================================================================
+
+# Headers globali (applicati a TUTTE le richieste)
+global_headers:
+  Accept-Encoding: "gzip, deflate, br, zstd"
+  Accept-Language: "it,it-IT;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6"
+  User-Agent: "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36 Edg/148.0.0.0"
+
+# Headers specifici per tipo di metodo HTTP
+http_method_headers:
+  GET:
+    # Headers specifici per richieste GET
+    Accept: "application/json, text/plain, */*"
+
+  POST:
+    # Headers specifici per richieste POST
+    Content-Type: "application/json"
+
+  PUT:
+    # Headers specifici per richieste PUT
+    Content-Type: "application/json"
+
+  DELETE:
+    # Headers specifici per richieste DELETE
+    Content-Type: "application/json"
+
+  POST_MULTIPART:
+    # Per upload file - NOTA: Content-Type viene impostato da httpx automaticamente
+    # Non aggiungere Content-Type qui per multipart, httpx lo gestisce
+
+# Headers per endpoint specifici (opzionali)
+# Formato: percorso endpoint -> headers aggiuntivi
+endpoint_headers:
+  "/api-pwm-integrazione/host/v1/common/esempio":
+    X-Notification-Client: "true"
+
+  "/v1/keycloak/token":
+    Content-Type: "application/x-www-form-urlencoded"
+
+  # Aggiungi altri endpoint specifici come necessario
+
+# Headers per ambiente (development, test, production)
+environment_headers:
+  development:
+    X-Environment: "development"
+    X-Debug: "true"
+
+  test:
+    X-Environment: "test"
+
+  production:
+    X-Environment: "production"
+
+ 

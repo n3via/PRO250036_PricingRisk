@@ -1,0 +1,1750 @@
+---
+openapi: 3.0.1
+info:
+  title: Loan ACL API definition
+  description: Contains all API resources exposed by Loan ACL
+  contact:
+    name: Loans team
+  version: 0.0.6
+servers:
+- url: http://localhost:50716
+  description: Generated server url
+paths:
+  /table-fields:
+    post:
+      tags:
+      - table-field-resource-controller
+      summary: Retrieve a list of table field entries
+      operationId: findAll
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableFieldReq'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TableFieldRepr'
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+  /table-fields/find-one:
+    post:
+      tags:
+      - table-field-resource-controller
+      summary: Retrieve a single table field entry
+      operationId: findOne
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableFieldDetailReq'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableFieldRepr'
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+        "404":
+          description: NotFoundError
+  /parameters/find-one:
+    post:
+      tags:
+      - parameter-resource-controller
+      summary: Retrieve a single parameter entry
+      operationId: findOne_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParameterReq'
+        required: true
+      responses:
+        "500":
+          description: InternalServerError
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterRepr'
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+        "404":
+          description: NotFoundError
+  /loans/get-from-list:
+    post:
+      tags:
+      - loan-resource-controller
+      summary: GET with body payload - retrieve detailed LoanRepr for each loan in
+        the input list
+      operationId: retrieveLoansRepr
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanReq'
+      responses:
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+        "404":
+          description: NotFoundError
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanRepr'
+  /parties/{partyId}/loans:
+    get:
+      tags:
+      - party-loan-resource-controller
+      summary: Retrieve minimal loan list for a given party
+      operationId: retrievePartyLoanMinimalReprList
+      parameters:
+      - name: partyId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: req
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GetLoanListReq'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MinimalLoanRepr'
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+        "404":
+          description: NotFoundError
+  /parties/{partyId}/loan-repayments:
+    get:
+      tags:
+      - party-loan-resource-controller
+      summary: Retrieve loan repayment list for all loans of a given party
+      operationId: retrievePartyMinimalLoanRepaymentRepr
+      parameters:
+      - name: partyId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: req
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GetLoanListReq'
+      responses:
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MinimalLoanRepaymentRepr'
+        "404":
+          description: NotFoundError
+  /loans:
+    get:
+      tags:
+      - loan-resource-controller
+      summary: Retrieve minimal loan list for the whole bank
+      operationId: retrieveLoanMinimalReprList
+      parameters:
+      - name: req
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GetLoanListReq'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MinimalLoanRepr'
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+  /loans/{loanNumber}:
+    get:
+      tags:
+      - loan-resource-controller
+      summary: Retrieve detailed loan data given a loan number
+      operationId: retrieveLoanRepr
+      parameters:
+      - name: loanNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: referenceDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      responses:
+        "500":
+          description: InternalServerError
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanRepr'
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+        "404":
+          description: NotFoundError
+  /loans/{loanNumber}/repayments:
+    get:
+      tags:
+      - loan-resource-controller
+      summary: Retrieve loan repayment list for a given loan number
+      operationId: retrieveMinimalLoanRepaymentRepr
+      parameters:
+      - name: loanNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: req
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GetLoanRepaymentReq'
+      responses:
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MinimalLoanRepaymentRepr'
+        "404":
+          description: NotFoundError
+  /loans/repayment-simulation:
+    get:
+      tags:
+      - loan-resource-controller
+      summary: Simulate loan repayment schedule (piano dimostrativo MG00ACL)
+      operationId: simulateLoanRepaymentSchedule
+      parameters:
+      - name: simulateLoanRepaymentReq
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/SimulateLoanRepaymentReq'
+      responses:
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MinimalLoanRepaymentRepr'
+  /loans/products:
+    get:
+      tags:
+      - loan-resource-controller
+      summary: Retrieve loan product list (MG03ACL SETPRO/GETPRO)
+      operationId: retrieveLoanProducts
+      parameters:
+      - name: req
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GetLoanProductsReq'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanProductRepr'
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+  /loans/demonstrative-plan:
+    get:
+      tags:
+      - loan-resource-controller
+      summary: Get demonstrative plan with TAEG calculation (MG03ACL SETDIMO/GETRATA/GETSPESA)
+      operationId: getDemonstrativePlan
+      parameters:
+      - name: req
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GetDemonstrativePlanReq'
+      responses:
+        "500":
+          description: InternalServerError
+        "401":
+          description: UnauthorizedError
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemonstrativePlanRepr'
+        "400":
+          description: BadRequestError
+        "403":
+          description: ForbiddenError
+        "429":
+          description: TooManyRequestsError
+        "404":
+          description: NotFoundError
+components:
+  schemas:
+    TableFieldReq:
+      required:
+      - serviceCode
+      - tableCode
+      type: object
+      properties:
+        serviceCode:
+          type: string
+          description: Service Code
+          example: string
+        tableCode:
+          type: string
+          description: Table Code
+          example: string
+        elementCode:
+          type: string
+          description: Element Code
+          example: string
+        subElementCode:
+          type: string
+          description: Sub-element Code
+          example: string
+      description: Table field request
+    TableFieldRepr:
+      type: object
+      properties:
+        serviceCode:
+          type: string
+          description: Service Code
+          example: string
+        tableCode:
+          type: string
+          description: Table Code
+          example: string
+        elementCode:
+          type: string
+          description: Element Code
+          example: string
+        subElementCode:
+          type: string
+          description: Sub-element Code
+          example: string
+        elementStatus:
+          type: string
+          description: Element Status
+          example: string
+        description:
+          type: string
+          description: Description
+          example: string
+        shortDescription:
+          type: string
+          description: Short Description
+          example: string
+        validityStartDate:
+          type: string
+          description: Validity Start Date
+          format: date
+          example: 2023-05-27
+        validityEndDate:
+          type: string
+          description: Validity End Date
+          format: date
+          example: 2023-05-27
+      description: Table field response
+    TableFieldDetailReq:
+      required:
+      - elementCode
+      - serviceCode
+      - tableCode
+      type: object
+      properties:
+        serviceCode:
+          type: string
+          description: Service Code
+          example: string
+        tableCode:
+          type: string
+          description: Table Code
+          example: string
+        elementCode:
+          type: string
+          description: Element Code
+          example: string
+        subElementCode:
+          type: string
+          description: Sub-element Code
+          example: string
+      description: Table field detail request
+    ParameterReq:
+      required:
+      - elementCode
+      - serviceCode
+      type: object
+      properties:
+        serviceCode:
+          type: string
+          description: Service Code
+          example: string
+        elementCode:
+          type: string
+          description: Element Code
+          example: string
+        subElementCode:
+          type: string
+          description: Sub-element Code
+          example: string
+      description: Parameter request
+    ParameterRepr:
+      type: object
+      properties:
+        stringValue:
+          type: string
+          description: String Value
+          example: string
+        numericValue:
+          type: number
+          description: Numeric Value
+          example: 100.0
+        dateValue:
+          type: string
+          description: Date Value
+          format: date
+          example: 2023-05-27
+      description: Parameter response
+    LoanDetailReq:
+      required:
+      - loanNumber
+      type: object
+      properties:
+        loanNumber:
+          type: string
+          description: Loan Number
+          example: 123456789
+      description: Loan detail request
+    LoanReq:
+      required:
+      - loanList
+      - referenceDate
+      type: object
+      properties:
+        referenceDate:
+          type: string
+          description: Reference Date
+          format: date
+          example: 2023-05-27
+        loanList:
+          type: array
+          description: Loans list
+          items:
+            $ref: '#/components/schemas/LoanDetailReq'
+      description: Loan request
+    LoanProductType:
+      type: string
+      description: |-
+        Loan Product type:
+        CONSUMER: Consumer loan
+        CORPORATE: Corporate loan
+        LOAN: Loan
+        MERCHANDISING: Merchandising loan
+        MORTGAGE: Mortgage loan
+        SYNDICATED: Syndicated loan
+      example: string
+      enum:
+      - CONSUMER
+      - CORPORATE
+      - LOAN
+      - MERCHANDISING
+      - MORTGAGE
+      - SYNDICATED
+    LoanRepr:
+      type: object
+      properties:
+        loanNumber:
+          type: string
+          description: Loan Number
+          example: string
+        partyDescriptionId:
+          type: string
+          description: Loan Description
+          example: string
+        partyId:
+          type: string
+          description: Party Id
+          example: string
+        loanStatus:
+          type: string
+          description: Loan Status
+          example: string
+        loanStatusDescription:
+          type: string
+          description: Loan Status Description
+          example: string
+        originationDate:
+          type: string
+          description: Origination Date
+          format: date
+          example: 2023-05-27
+        risksAndCommitmentsDate:
+          type: string
+          description: Risks and Commitments Date
+          format: date
+          example: 2023-05-27
+        firstDisbursementDate:
+          type: string
+          description: First Disbursement Date
+          format: date
+          example: 2023-05-27
+        firstScheduledRepaymentDate:
+          type: string
+          description: First Scheduled Repayment Date
+          format: date
+          example: 2023-05-27
+        firstRepaymentDate:
+          type: string
+          description: First Repayment Date
+          format: date
+          example: 2023-05-27
+        maturityDate:
+          type: string
+          description: Maturity Date
+          format: date
+          example: 2023-05-27
+        closingDate:
+          type: string
+          description: Closing Date
+          format: date
+          example: 2023-05-27
+        interestRateType:
+          type: string
+          description: Interest Rate Type
+          example: string
+        interestRateTypeDescription:
+          type: string
+          description: Interest Rate Type Description
+          example: string
+        interestRate:
+          type: number
+          description: Interest Rate
+          example: 3.5
+        repaymentType:
+          type: string
+          description: Repayment Type
+          example: string
+        repaymentTypeDescription:
+          type: string
+          description: Repayment Type Description
+          example: string
+        interestPaymentType:
+          type: integer
+          description: Interest Payment Type
+          format: int32
+        interestPaymentTypeDescription:
+          type: string
+          description: Interest Payment Type Description
+          example: string
+        loanProductType:
+          $ref: '#/components/schemas/LoanProductType'
+        loanTypeCode:
+          type: string
+          description: Loan Type Code
+          example: string
+        loanType:
+          type: string
+          description: Loan Type
+          example: string
+        repaymentSchedulePeriodicity:
+          type: integer
+          description: Repayments Scheduled Per Year
+          format: int32
+          example: 4
+        repaymentSchedulePeriodicityDescription:
+          type: string
+          description: Repayment Schedule Periodicity Description
+          example: string
+        prepaymentSchedulePeriodicity:
+          type: integer
+          description: Prepayments Scheduled Per Year
+          format: int32
+          example: 2
+        prepaymentSchedulePeriodicityDescription:
+          type: string
+          description: Prepayment Schedule Periodicity Description
+          example: string
+        interestAccrualMethod:
+          type: string
+          description: Interest Accrual Method
+          example: string
+        interestAccrualMethodDescription:
+          type: string
+          description: Interest Accrual Method Description
+          example: string
+        prepaymentsInterestAccrualMethod:
+          type: string
+          description: Prepayments Interest Accrual Method
+          example: string
+        prepaymentsInterestAccrualMethodDescription:
+          type: string
+          description: Prepayments Interest Accrual Method Description
+          example: string
+        riskStatus:
+          type: boolean
+          description: Risk Status
+          example: true
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        grantedAmount:
+          type: number
+          description: Granted Amount
+          example: 10000.0
+        disbursedAmount:
+          type: number
+          description: Disbursed Amount
+          example: 5000.0
+        outstandingBalance:
+          type: number
+          description: Outstanding Balance
+          example: 7500.0
+        capAndFloorType:
+          type: string
+          description: Cap and Floor Type
+          example: string
+        capAndFloorTypeDescription:
+          type: string
+          description: Cap and Floor Type Description
+          example: string
+        syndicatedLoanArranger:
+          type: string
+          description: Syndicated Loan Arranger
+          example: S/N
+        syndicatedLeadLenderOutstandingAmount:
+          type: number
+          description: Syndicated Lead Lender Outstanding Balance
+          example: 5000.0
+        expirationNoticeType:
+          type: string
+          description: Expiration Notice Type
+        expirationNoticeTypeDescription:
+          type: string
+          description: Expiration Notice Type Description
+          example: string
+        paymentType:
+          type: string
+          description: Payment Type
+        paymentTypeDescription:
+          type: string
+          description: Payment Type Description
+          example: string
+        summaryDocumentationSendingMode:
+          type: string
+          description: Summary Documentation Sending Mode
+        summaryDocumentationSendingModeDescription:
+          type: string
+          description: Summary Documentation Sending Mode Description
+          example: string
+        subjectToCreditRegulation:
+          type: string
+          description: Subject to Credit Regulation
+        subjectToCreditRegulationDescription:
+          type: string
+          description: Subject to Credit Regulation Description
+          example: string
+        disbursementFeeType:
+          type: string
+          description: Disbursement Fee Type
+        disbursementFeeTypeDescription:
+          type: string
+          description: Disbursement Fee Type Description
+          example: string
+        productCode:
+          type: string
+          description: Product Code
+          example: string
+        productDescription:
+          type: string
+          description: Product Description
+          example: string
+        transparencyClass:
+          type: string
+          description: Transparency Class
+          example: string
+        transparencyClassDescription:
+          type: string
+          description: Transparency Class Description
+          example: string
+        totalInstallments:
+          type: integer
+          description: Total Installments
+          format: int32
+          example: 1
+        mortgageAmortizationInstallments:
+          type: integer
+          description: Mortgage Amortization Installments
+          format: int32
+          example: 1
+        preAmortizationType:
+          type: string
+          description: Pre-amortization Type
+          example: string
+        preAmortizationTypeDescription:
+          type: string
+          description: Pre-amortization Type Description
+          example: string
+        reductionType:
+          type: integer
+          description: Reduction Type
+          format: int32
+          example: 1
+        reductionTypeDescription:
+          type: string
+          description: Reduction Type Description
+          example: string
+        agreedInstallmentsNumber:
+          type: integer
+          description: Agreed Installments Number
+          format: int32
+          example: 1
+        agreedInstallmentAmount:
+          type: number
+          description: Agreed Installment Amount
+          example: 500.0
+        fixedCapitalShareFlag:
+          type: string
+          description: Fixed Capital Share Flag
+          example: string
+        fixedCapitalRateFund:
+          type: number
+          description: Fixed Capital Rate / Revolving Fund
+          example: 3.5
+        poolLoan:
+          type: string
+          description: Pool Loan
+          example: string
+        poolLoanDescription:
+          type: string
+          description: Pool Loan Description
+          example: string
+        thirdPartyFundLoan:
+          type: string
+          description: Third-party Fund Loan
+          example: string
+        thirdPartyFundDescription:
+          type: string
+          description: Third-party Fund Description
+          example: string
+        loanWithEffects:
+          type: string
+          description: Loan with Effects
+          example: string
+        interestLatePaymentCalculationBase:
+          type: string
+          description: Late Payment Interest Calculation Base
+          example: string
+        interestLatePaymentCalculationBaseDescription:
+          type: string
+          description: Late Payment Interest Calculation Base Description
+          example: string
+        latePaymentInterestSpread:
+          type: number
+          description: Late Payment Interest Spread
+          example: 1.5
+        latePaymentInterestCalendar:
+          type: string
+          description: Late Payment Interest Calendar
+          example: string
+        latePaymentInterestCalendarDescription:
+          type: string
+          description: Late Payment Interest Calendar Description
+          example: string
+        dpr601Subject:
+          type: string
+          description: Subject to DPR 601 Tax
+          example: string
+        dpr601Description:
+          type: string
+          description: DPR 601 Description
+          example: string
+        dpr601Rate:
+          type: number
+          description: DPR 601 Rate
+          example: 0.25
+        dpr601Percentage:
+          type: number
+          description: DPR 601 Percentage
+          example: 0.5
+        dpr601SecondRate:
+          type: number
+          description: DPR 601 Second Rate
+          example: 0.25
+        dpr601SecondPercentage:
+          type: number
+          description: DPR 601 Second Percentage
+          example: 0.5
+        dpr601CalculatedAmount:
+          type: number
+          description: DPR 601 Calculated Amount
+          example: 100.0
+        dpr601ChargedAmount:
+          type: number
+          description: DPR 601 Charged Amount
+          example: 100.0
+        figBccRate:
+          type: number
+          description: FIG Rate charged to BCC
+          example: 0.25
+        figRate:
+          type: number
+          description: FIG Rate
+          example: 0.25
+        figCalculatedAmount:
+          type: number
+          description: FIG Calculated Amount
+          example: 100.0
+        figChargedAmount:
+          type: number
+          description: FIG Charged Amount
+          example: 100.0
+        figBccAmount:
+          type: number
+          description: FIG Amount charged to BCC
+          example: 100.0
+        mediatorType:
+          type: string
+          description: Mediator Type
+          example: string
+        mediatorTypeDescription:
+          type: string
+          description: Mediator Type Description
+          example: string
+        mediatorCode:
+          type: string
+          description: Mediator Code
+          example: string
+        mediatorDescription:
+          type: string
+          description: Mediator Description
+          example: string
+        mediatorSettlementType:
+          type: string
+          description: Mediator Settlement Type
+          example: string
+        mediatorSettlementTypeDescription:
+          type: string
+          description: Mediator Settlement Type Description
+          example: string
+        mediationFeeClient:
+          type: number
+          description: Mediation Fee charged to Client
+          example: 500.0
+        mediationFeeBank:
+          type: number
+          description: Mediation Fee charged to Bank
+          example: 500.0
+        currentRateType:
+          type: string
+          description: Current Rate Type
+          example: string
+        currentRateTypeDescription:
+          type: string
+          description: Current Rate Type Description
+          example: string
+        referenceRate:
+          type: string
+          description: Reference Rate
+          example: string
+        referenceRateDescription:
+          type: string
+          description: Reference Rate Description
+          example: string
+        referenceRateValue:
+          type: number
+          description: Reference Rate Value
+          example: 3.5
+        referenceRateSpread:
+          type: number
+          description: Reference Rate Spread
+          example: 1.5
+        minimumRateValue:
+          type: number
+          description: Minimum Rate Value
+          example: 1.0
+        maximumRateValue:
+          type: number
+          description: Maximum Rate Value
+          example: 10.0
+        minimumRateFormula:
+          type: string
+          description: Minimum Rate Formula
+          example: string
+        maximumRateFormula:
+          type: string
+          description: Maximum Rate Formula
+          example: string
+        marketingProductCode:
+          type: string
+          description: Marketing Product Code
+          example: string
+        marketingProductDescription:
+          type: string
+          description: Marketing Product Description
+          example: string
+      description: Loan response
+    GetLoanListReq:
+      type: object
+      properties:
+        relationshipStatus:
+          type: string
+          description: Relationship status
+          example: AR
+        relationshipType:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          description: Relationship type list
+          items:
+            type: string
+            description: Relationship type list
+        loanStatus:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          description: Loan status list
+          items:
+            type: string
+            description: Loan status list
+        loanProductType:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          description: Loan product type list
+          items:
+            type: string
+            description: Loan product type list
+        hedgeAccountingType:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          description: Hedge accounting type list
+          items:
+            type: string
+            description: Hedge accounting type list
+        hedgeAccountable:
+          type: boolean
+          description: Hedge accountable flag
+          example: true
+        loanRepaymentType:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          description: Loan repayment type list
+          items:
+            type: string
+            description: Loan repayment type list
+        interestRateType:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          description: Interest rate type list
+          items:
+            type: string
+            description: Interest rate type list
+        soleProprietorship:
+          type: boolean
+          description: Include sole proprietorship (S/N)
+          example: false
+        referenceDate:
+          type: string
+          description: Reference date
+          format: date
+          example: 2024-05-22
+        limit:
+          type: integer
+          description: Page limit
+          format: int32
+          example: 50
+        offset:
+          type: integer
+          description: Page offset
+          format: int32
+          example: 0
+      description: Request for loan list
+    MinimalLoanRepr:
+      type: object
+      properties:
+        loanNumber:
+          type: string
+          description: Loan Number
+          example: string
+        partyId:
+          type: string
+          description: Party Id
+          example: string
+        loanStatus:
+          type: string
+          description: Loan Status
+          example: string
+        originationDate:
+          type: string
+          description: Origination Date
+          format: date
+          example: 2023-05-27
+        risksAndCommitmentsDate:
+          type: string
+          description: Risks and Commitments Date
+          format: date
+          example: 2023-05-27
+        firstDisbursementDate:
+          type: string
+          description: First Disbursement Date
+          format: date
+          example: 2023-05-27
+        firstScheduledRepaymentDate:
+          type: string
+          description: First Scheduled Repayment Date
+          format: date
+          example: 2023-05-27
+        firstRepaymentDate:
+          type: string
+          description: First Repayment Date
+          format: date
+          example: 2023-05-27
+        maturityDate:
+          type: string
+          description: Maturity Date
+          format: date
+          example: 2023-05-27
+        closingDate:
+          type: string
+          description: Closing Date
+          format: date
+          example: 2023-05-27
+        repaymentType:
+          type: string
+          description: Repayment Type
+          example: string
+        interestPaymentType:
+          type: integer
+          description: Interest Payment Type
+          format: int32
+          example: 1
+        loanProductType:
+          $ref: '#/components/schemas/LoanProductType'
+        loanTypeCode:
+          type: string
+          description: Loan Type Code
+          example: string
+        loanType:
+          type: string
+          description: Loan Type
+          example: string
+        interestRateType:
+          type: string
+          description: Interest Rate Type
+          example: string
+        interestRate:
+          type: number
+          description: Interest Rate
+          example: 3.5
+        riskStatus:
+          type: boolean
+          description: Risk Status
+          example: true
+        currency:
+          type: string
+          description: Currency
+          example: EUR
+        grantedAmount:
+          type: number
+          description: Granted Amount
+          example: 100000.0
+        disbursedAmount:
+          type: number
+          description: Disbursed Amount
+          example: 80000.0
+        outstandingBalance:
+          type: number
+          description: Outstanding Balance
+          example: 70000.0
+        capAndFloorType:
+          type: string
+          description: Cap and Floor Type
+          example: string
+        syndicatedLoanArranger:
+          type: string
+          description: Syndicated Loan Arranger
+          example: S/N
+        syndicatedLeadLenderOutstandingAmount:
+          type: number
+          description: Syndicated Lead Lender Outstanding Amount
+          example: 5000.0
+        partyDescriptionId:
+          type: string
+          description: Party Description Id
+          example: string
+      description: Minimal loan response
+    MinimalLoanRepaymentRepr:
+      required:
+      - transactionNumber
+      type: object
+      properties:
+        loanNumber:
+          type: string
+          description: Loan Number
+          example: string
+        partyId:
+          type: string
+          description: Party Id
+          example: string
+        transactionType:
+          type: string
+          description: Transaction Type
+          example: string
+        transactionNumber:
+          type: integer
+          description: Transaction Number
+          format: int32
+          example: 1
+          enum:
+          - -1
+        transactionStatus:
+          type: string
+          description: Transaction Status
+          example: string
+        repaymentTransactionType:
+          type: string
+          description: Repayment Transaction Type
+          example: string
+        repaymentTransactionNumber:
+          type: integer
+          description: Repayment Transaction Number
+          format: int32
+          example: 123
+        repaymentTransactionValueDate:
+          type: string
+          description: Repayment Transaction Value Date
+          format: date
+          example: 2024-05-22
+        expectedTransactionAmount:
+          type: number
+          description: Expected Transaction Amount
+          example: 1000.0
+        expectedTransactionCapitalAmount:
+          type: number
+          description: Expected Transaction Capital Amount
+          example: 800.0
+        expectedInterestAccrualAmount:
+          type: number
+          description: Interest Accrual Amount
+          example: 50.0
+        expectedTransactionExternalEntityCapitalAmount:
+          type: number
+          description: Expected Transaction External Entity Capital Amount
+          example: 700.0
+        expectedInterestExternalEntityAccrualAmount:
+          type: number
+          description: Interest External Entity Accrual Amount
+          example: 30.0
+        expectedLatePaymentInterestAmount:
+          type: number
+          description: Expected Late Payment Interest Amount
+          example: 20.0
+        expectedTransactionFeeAmount:
+          type: number
+          description: Expected Transaction Fee Amount
+          example: 10.0
+        expectedSuspendedInterestAmount:
+          type: number
+          description: Expected Suspended Interest Amount
+          example: 5.0
+        transactionOutstandingBalance:
+          type: number
+          description: Transaction Outstanding Balance
+          example: 900.0
+        paymentTransactionDate:
+          type: string
+          description: Payment Transaction Date
+          format: date
+          example: 2024-05-22
+        payedCapitalAmount:
+          type: number
+          description: Payed Capital Amount
+          example: 800.0
+        payedInterestAmount:
+          type: number
+          description: Payed Interest Amount
+          example: 50.0
+        payedExternalEntityCapitalAmount:
+          type: number
+          description: Payed External Entity Capital Amount
+          example: 700.0
+        payedExternalEntityInterestAmount:
+          type: number
+          description: Payed External Entity Interest Amount
+          example: 30.0
+        payedLatePaymentInterestAmount:
+          type: number
+          description: Payed Late Payment Interest Amount
+          example: 20.0
+        payedFeeAmount:
+          type: number
+          description: Payed Fee Amount
+          example: 10.0
+        payedSuspendedInterestAmount:
+          type: number
+          description: Payed Suspended Interest Amount
+          example: 5.0
+        currency:
+          type: string
+          description: Currency
+          example: EUR
+        dummyTransaction:
+          type: boolean
+          description: Dummy Transaction
+          example: true
+      description: Minimal loan repayment response
+    GetLoanRepaymentReq:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: Page limit
+          format: int32
+          example: 50
+        offset:
+          type: integer
+          description: Page offset
+          format: int32
+          example: 0
+      description: Request for loan repayment list
+    SimulateLoanRepaymentReq:
+      type: object
+      properties:
+        loanNumber:
+          type: string
+          description: LoanNumber
+          example: string
+        currency:
+          type: string
+          description: Currency
+          example: string
+        originalCurrency:
+          type: string
+          description: Original Currency
+          example: string
+        grantedAmount:
+          type: number
+          description: Granted Amount
+          example: 100000.0
+        outstandingBalanceAmount:
+          type: number
+          description: Outstanding Balance Amount
+          example: 50000.0
+        firstRepaymentDate:
+          type: string
+          description: First Repayment Date
+          format: date
+          example: 2024-05-22
+        numberOfRepayments:
+          type: integer
+          description: Number of Repayment Transactions
+          format: int32
+          example: 12
+        numberOfScheduledRepayments:
+          type: integer
+          description: Number of Scheduled Repayment Transactions
+          format: int32
+          example: 10
+        periodicity:
+          type: integer
+          description: Periodicity
+          format: int32
+          example: 1
+        prepaymentPeriodicity:
+          type: integer
+          description: Prepayment Periodicity
+          format: int32
+          example: 1
+        interestAccrualMethod:
+          type: string
+          description: Interest Accrual Method
+          example: ACT/360
+        repaymentType:
+          type: string
+          description: Repayment Type
+          example: ANNUITY
+        interestPaymentType:
+          type: integer
+          description: Interest Payment Type
+          format: int32
+          example: 1
+        financialReduction:
+          type: integer
+          description: Financial Reduction
+          format: int32
+          example: 0
+        globalRate:
+          type: number
+          description: Global Rate
+          example: 5.0
+        limit:
+          type: integer
+          description: Limit
+          format: int32
+          example: 10
+        offset:
+          type: integer
+          description: Offset
+          format: int32
+          example: 0
+      description: Simulate loan repayment request
+    GetLoanProductsReq:
+      required:
+      - serviceCode
+      type: object
+      properties:
+        serviceCode:
+          type: string
+          description: Service code
+          example: MUT
+        onlyActive:
+          type: string
+          description: Only active products (S/N)
+          example: S
+        currency:
+          type: string
+          description: Currency (ISO)
+          example: EUR
+        planPeriodicity:
+          type: string
+          description: Plan periodicity
+          example: 12
+      description: Request for loan product list (MG03ACL SETPRO/GETPRO)
+    LoanProductRepr:
+      type: object
+      properties:
+        productCode:
+          type: string
+          description: Product condition code
+          example: PRODCOND1
+        productDescription:
+          type: string
+          description: Product description
+          example: Mutuo a tasso fisso 20 anni
+        interestRateType:
+          type: string
+          description: "Interest rate type (F=Fixed, V=Variable)"
+          example: F
+        productStatus:
+          type: string
+          description: Product status (A=Active)
+          example: A
+        monthlyPeriodicityAllowed:
+          type: string
+          description: Monthly periodicity allowed (S/N)
+          example: S
+        allowedPeriodicities:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          description: "Allowed periodicities (distinct, blank values excluded)"
+          items:
+            type: string
+            description: "Allowed periodicities (distinct, blank values excluded)"
+      description: Loan product response
+    GetDemonstrativePlanReq:
+      required:
+      - currency
+      - durationMonths
+      - financingAmount
+      - planPeriodicity
+      - productCode
+      - referenceDate
+      - serviceCode
+      type: object
+      properties:
+        serviceCode:
+          type: string
+          description: Service code
+          example: M01
+        productCode:
+          type: string
+          description: Product condition code
+          example: PRODCOND1
+        referenceDate:
+          type: string
+          description: Reference date
+          format: date
+          example: 2024-05-22
+        currency:
+          type: string
+          description: Currency (ISO)
+          example: EUR
+        financingAmount:
+          type: number
+          description: Financing amount
+          example: 100000.0
+        durationMonths:
+          type: integer
+          description: Duration in months
+          format: int32
+          example: 240
+        planPeriodicity:
+          type: string
+          description: Plan periodicity
+          example: 12
+      description: Request for demonstrative plan with TAEG calculation (MG03ACL SETDIMO)
+    DemonstrativePlanExpenseRepr:
+      type: object
+      properties:
+        conditionCode:
+          type: string
+          description: Condition code
+          example: IST
+        conditionDescription:
+          type: string
+          description: Condition description
+          example: Istruttoria pratica
+        additionalNotes:
+          type: string
+          description: Additional notes
+          example: string
+        amount:
+          type: number
+          description: Amount
+          example: 200.0
+        percentage:
+          type: number
+          description: Percentage
+          example: 0.5
+        maxAmount:
+          type: number
+          description: Maximum amount
+          example: 500.0
+        minAmount:
+          type: number
+          description: Minimum amount
+          example: 50.0
+        includedInTaeg:
+          type: boolean
+          description: Included in TAEG (S/N)
+          example: true
+        includedInCtc:
+          type: boolean
+          description: Included in CTC (S/N)
+          example: true
+        groupCode:
+          type: string
+          description: Group code
+          example: A
+        periodicity:
+          type: string
+          description: Periodicity
+          example: M
+        numberOfPeriods:
+          type: integer
+          description: Number of periods
+          format: int32
+          example: 12
+        startingFromPeriod:
+          type: integer
+          description: Starting period
+          format: int32
+          example: 1
+      description: Demonstrative plan expense detail for TAEG (GETSPESA)
+    DemonstrativePlanInstallmentRepr:
+      type: object
+      properties:
+        installmentDueDate:
+          type: string
+          description: Installment due date
+          format: date
+          example: 2024-06-01
+        installmentType:
+          type: string
+          description: Installment type
+          example: R
+        installmentNumber:
+          type: integer
+          description: Installment number
+          format: int32
+          example: 1
+        movementType:
+          type: string
+          description: Movement type
+          example: RA
+        movementValueDate:
+          type: string
+          description: Movement value date
+          format: date
+          example: 2024-06-01
+        installmentAmount:
+          type: number
+          description: Installment total amount
+          example: 850.0
+        capitalShare:
+          type: number
+          description: Capital share (client)
+          example: 700.0
+        interestShare:
+          type: number
+          description: Interest share (client)
+          example: 150.0
+        outstandingBalance:
+          type: number
+          description: Outstanding balance after installment
+          example: 99150.0
+      description: Demonstrative plan installment detail (GETRATA)
+    DemonstrativePlanRepr:
+      type: object
+      properties:
+        effectiveTan:
+          type: number
+          description: Effective TAN
+          example: 4.5
+        installmentAmount:
+          type: number
+          description: Installment amount
+          example: 850.0
+        financingAmount:
+          type: number
+          description: Financing amount
+          example: 100000.0
+        taeg:
+          type: number
+          description: TAEG
+          example: 5.12
+        creditCostAmount:
+          type: number
+          description: Credit cost amount for TAEG
+          example: 2400.0
+        totalAmountDue:
+          type: number
+          description: Total amount due for TAEG
+          example: 102400.0
+        ctc:
+          type: number
+          description: CTC
+          example: 5.15
+        creditCostAmountCtc:
+          type: number
+          description: Credit cost amount for CTC
+          example: 2500.0
+        totalAmountDueCtc:
+          type: number
+          description: Total amount due for CTC
+          example: 102500.0
+        rateType:
+          type: string
+          description: Interest rate type
+          example: F
+        rateType1:
+          type: string
+          description: Interest rate type 1
+          example: F
+        effectiveTan2:
+          type: number
+          description: Effective TAN 2
+          example: 4.5
+        rateType2:
+          type: string
+          description: Interest rate type 2
+          example: V
+        durationMonthsRate1:
+          type: integer
+          description: Duration in months for rate 1
+          format: int64
+          example: 240
+        referenceRateCode:
+          type: string
+          description: Reference rate code
+          example: EUR
+        referenceRateDescription:
+          type: string
+          description: Reference rate description
+          example: Euribor 3 mesi
+        referenceIndexValue:
+          type: number
+          description: Reference index value
+          example: 3.5
+        spread:
+          type: number
+          description: Spread
+          example: 1.0
+        minimumRateValue:
+          type: number
+          description: Minimum rate value
+          example: 2.0
+        maximumRateValue:
+          type: number
+          description: Maximum rate value
+          example: 8.0
+        minimumRateFormula:
+          type: string
+          description: Minimum rate formula
+          example: FLOOR
+        maximumRateFormula:
+          type: string
+          description: Maximum rate formula
+          example: CAP
+        formattedRateDescription1:
+          type: string
+          description: Formatted rate description 1
+        formattedRateDescription2:
+          type: string
+          description: Formatted rate description 2
+        formattedRateDescription3:
+          type: string
+          description: Formatted rate description 3
+        formattedRateDescription4:
+          type: string
+          description: Formatted rate description 4
+        installments:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          description: Installment list
+          items:
+            $ref: '#/components/schemas/DemonstrativePlanInstallmentRepr'
+        expenses:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          description: Expense list (TAEG)
+          items:
+            $ref: '#/components/schemas/DemonstrativePlanExpenseRepr'
+      description: Demonstrative plan with TAEG calculation (SETDIMO + GETRATA + GETSPESA)
