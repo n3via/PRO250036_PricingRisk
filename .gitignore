@@ -19,7 +19,6 @@ venv/
 logs/        # <-- ignora la cartella logs
 reports/     # <-- ignora la cartella reports
 allure-results/
-CONFIG/environments.yaml
 
 # Environment files
 .env

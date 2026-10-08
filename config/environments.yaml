@@ -1,0 +1,15 @@
+
+integration:
+  auth: 
+    token: eyJraWQiOiJLeGgzWXFaeXM2TDFEX2tkVWJGc3BDS0lvU1lGZ29BQ0xSRFB2V2g4andBIiwidHlwIjoiYXBwbGljYXRpb24vb2t0YS1pbnRlcm5hbC1hdCtqd3QiLCJhbGciOiJSUzI1NiJ9.eyJ2ZXIiOjEsImp0aSI6IkFULmpUblVJckNYRlR1ZlQxTmNNdU1kaC1md01ma1hpLTBieVJpbURMUm1feDgiLCJpc3MiOiJodHRwczovL2xvZ2luLXRlc3QuY2Fzc2FjZW50cmFsZS5pdCIsImF1ZCI6Imh0dHBzOi8vbG9naW4tdGVzdC5jYXNzYWNlbnRyYWxlLml0Iiwic3ViIjoiY2M5OTczQGZha2Vwb3J0YWxpLmNvbSIsImlhdCI6MTc5MDI1NjMwMiwiZXhwIjoxNzkwMjU5OTAyLCJjaWQiOiIwb2E4MDR6ZXQ5TWpRclVtTTB4NyIsInVpZCI6IjAwdWEycWQ5eWM2c084SWYwMHg3Iiwic2NwIjpbIm9wZW5pZCIsImVtYWlsIiwicHJvZmlsZSIsImdyb3VwcyJdLCJhdXRoX3RpbWUiOjE3OTAyNTYzMDB9.eJt-5gsiSfOdAZpfN_273eOAC2Rm4NgEYsKNkL2as_AFme0ByXZgKd2TistyRz_WJlsSCrF8JEo-DRZP-8o6XIZJb3fryNcvnm7x2hEElmOLtV5NuDdP6ddDanL09amFnnlEeKAw85wxi-Pr1x8AAGHPo8ZdCXz-crqlIbvK32cukqUTQLTygvekkACZfZWpS-2lsBkeyhF9TAE5pixogpBqrRCmGx-GP3KKala3s1jkNzHilwYNyFYbPqnmsxZ5javSVgICVDLugo9kmrzBFTfri_dGIRDwmGsfEs75_hox7kLfD1Eukr_Yz30cIrKyjGbLRD4yI3EUf68OKaMUPA
+  base_url: https://apimanager.integrazione.servizi.allitude.it:8065/api-pwm-integrazione/wf-bpmn-be
+  timeout: 30
+  ## Verifica certificato SSL/TLS delle richieste HTTPS
+  verify_ssl: false
+  ## Header HTTP di default inviati dal client
+  headers:
+    Accept: application/json
+
+  ## Dati di test condivisi richiamabili nei testcase
+  test_data:
+    docid: 17410
