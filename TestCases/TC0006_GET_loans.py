@@ -15,7 +15,7 @@ def test_TC0006_GET_loans(manual_token_client):
 
     with allure.step("STEP 1: --- Chiamata al servizio ---"):
         service = LoanResourceControllerServices(manual_token_client)
-        with allure.step("Retrieve minimal loan list from the bank"):
+        with allure.step("/loans"):
             response, data = service.get_loan_proposal_offers()
 
     with allure.step("STEP 2: --- Validazione della response ---"):

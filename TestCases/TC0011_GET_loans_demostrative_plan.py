@@ -14,7 +14,7 @@ def test_TC0011_GET_loans_demostrative_plan(manual_token_client):
     # manual_token_client.headers["Accept"] = "application/json, text/plain, */*"
     with allure.step("STEP 1: --- Chiamata al servizio ---"):
         service = LoanResourceControllerServices(manual_token_client)
-        with allure.step("Get demonstrative plan with TAEG calculation (MG03ACL SETDIMO/GETRATA/GETSPESA)"):
+        with allure.step("/loans/demonstrative-plan"):
             response, data = service.get_loans_demostrative_plan()
 
     with allure.step("STEP 2: --- Validazione della response ---"):

@@ -15,7 +15,7 @@ def test_TC0008_GET_loans_loannumber_repayments(manual_token_client):
     loan_number = "12345"
     with allure.step("STEP 1: --- Chiamata al servizio ---"):
         service = LoanResourceControllerServices(manual_token_client)
-        with allure.step("Retrieve detailed loan data given a loan number"):
+        with allure.step(f"/loans/{loan_number}/repayments"):
             response, data = service.get_loan_with_loan_number_repayments(loan_number)
 
     with allure.step("STEP 2: --- Validazione della response ---"):
