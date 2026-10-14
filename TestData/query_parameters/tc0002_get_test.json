@@ -1,0 +1,12 @@
+{
+  "branchId": "5",
+  "offerType": "SB",
+  "partyId": "1",
+  "marketingProductId": "1",
+  "productTermsId": "1",
+  "status": "A",
+  "insertionDateGte": "2022-07-27",
+  "insertionDateLte": "2022-07-27",
+  "expiryDateGte": "2022-07-27",
+  "expiryDateLte": "2022-07-27"
+}

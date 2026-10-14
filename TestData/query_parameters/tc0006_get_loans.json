@@ -1,0 +1,26 @@
+{
+  "relationshipStatus": "AR",
+  "relationshipType": [
+    "string"
+  ],
+  "loanStatus": [
+    "string"
+  ],
+  "loanProductType": [
+    "string"
+  ],
+  "hedgeAccountingType": [
+    "string"
+  ],
+  "hedgeAccountable": true,
+  "loanRepaymentType": [
+    "string"
+  ],
+  "interestRateType": [
+    "string"
+  ],
+  "soleProprietorship": false,
+  "referenceDate": "2024-05-22",
+  "limit": 50,
+  "offset": 0
+}

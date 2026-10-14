@@ -1,0 +1,9 @@
+{
+  "serviceCode": "M01",
+  "productCode": "PRODCOND1",
+  "referenceDate": "2024-05-22",
+  "currency": "EUR",
+  "financingAmount": 100000,
+  "durationMonths": 240,
+  "planPeriodicity": "12"
+}

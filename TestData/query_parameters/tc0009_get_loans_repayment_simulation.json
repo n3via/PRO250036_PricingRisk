@@ -1,0 +1,19 @@
+{
+  "loanNumber": "string",
+  "currency": "string",
+  "originalCurrency": "string",
+  "grantedAmount": 100000,
+  "outstandingBalanceAmount": 50000,
+  "firstRepaymentDate": "2024-05-22",
+  "numberOfRepayments": 12,
+  "numberOfScheduledRepayments": 10,
+  "periodicity": 1,
+  "prepaymentPeriodicity": 1,
+  "interestAccrualMethod": "ACT/360",
+  "repaymentType": "ANNUITY",
+  "interestPaymentType": 1,
+  "financialReduction": 0,
+  "globalRate": 5,
+  "limit": 10,
+  "offset": 0
+}

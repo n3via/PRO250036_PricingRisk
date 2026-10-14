@@ -2,7 +2,7 @@ import json
 
 from CORE.api.base_services import BaseAPIService
 from CORE.utils.helper import load_json
-from PRO250036_PricingRisk.schemas.pricing_schemas import LoanProposalCustomerOfferRepr
+from schemas.pricing_schemas import LoanProposalCustomerOfferRepr
 
 
 class PricingServices(BaseAPIService):
@@ -22,3 +22,9 @@ class PricingServices(BaseAPIService):
             
         path = f"{self.endpoint}/loan-proposal-offers/{customer_offer_id}"
         return self.APIGET(path_override=path, response_model=LoanProposalCustomerOfferRepr)
+
+    def get_loan_proposal_offers_test(self):
+        path = f"/header-summary"
+        query_string = "?customerOfferId=123456789"
+        return self.APIGET(path_override=path)
+
